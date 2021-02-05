@@ -4,13 +4,14 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const db = require('./db.js');
+const route = require('./route.js');
+
+app.set('view engine','pug');
+app.set('views',path.join(__dirname,'html'));
+db();
 app.use(express.static(path.join(__dirname,'html')));   //정적요소를 사용한다는 의미(html, js등)
-app.get('/',(req,res)=>{
-    res.sendFile(path.join(__dirname,'html','main.html'));
-});
-app.get('/about',(req,res)=>{
-    res.sendFile(path.join(__dirname,'html','about.html'));
-});
+app.use('/',route)
 app.listen(8090,()=>{
     console.log('Express App on port 8090!');
 });
